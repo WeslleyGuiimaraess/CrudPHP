@@ -39,7 +39,9 @@
 
                 <?php 
 
-                    include("config.php");
+                    include("bootstrap.php");
+                    include("src/Usuario.php");
+
                     switch(@$_REQUEST["page"])
                     {
                         case "novo":

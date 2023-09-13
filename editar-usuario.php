@@ -1,24 +1,23 @@
 <h1> Editar Usuário </h1>
 <?php
 
-    $sql = "SELECT * FROM usuarios WHERE ID=".$_REQUEST["ID"];
-    $ress = $conn->query($sql);
+$id = $_REQUEST["ID"];
 
-    $row = $ress->fetch_object();
+$usuario = $entityManager->find('Usuario', (int)$id);
 
 ?>
 <form action="?page=salvar" method="POST">
     <input type="hidden" name="acao" value="editar">
-    <input type="hidden" name="ID" value="<?php print $row->ID; ?>">
+    <input type="hidden" name="ID" value="<?php print $usuario->getId(); ?>">
 
     <div class="mb-3">
         <label>Nome</label>
-        <input type="text" name="nome" value="<?php print $row->nome; ?>" class="form-control">
+        <input type="text" name="nome" value="<?php print $usuario->getNome(); ?>" class="form-control">
     </div>
 
     <div class="mb-3">
         <label>E-mail</label>
-        <input type="email" name="email" value="<?php print $row->email; ?>" class="form-control">
+        <input type="email" name="email" value="<?php print $usuario->getEmail(); ?>" class="form-control">
     </div>
 
     <div class="mb-3">
@@ -28,7 +27,7 @@
 
     <div class="mb-3">
         <label>Data de Nascimento</label>
-        <input type="date" name="data_nasc" value="<?php print $row->data_nasc; ?>" class="form-control">
+        <input type="date" name="data_nasc" value="<?php print $usuario->getDataNascimento()->format("Y-m-d"); ?>" class="form-control">
     </div>
     <div class="mb-3">
         

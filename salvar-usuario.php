@@ -6,63 +6,79 @@
             $nome = $_POST["nome"];
             $email = $_POST["email"];
             $senha = md5($_POST["senha"]);
+
             $data_nasc = $_POST["data_nasc"];
+            $data_nasc = DateTime::createFromFormat("Y-m-d", $data_nasc);
 
-            $sql = "INSERT INTO usuarios (nome, email, senha, data_nasc) VALUES ('{$nome}', '{$email}', '{$senha}', '{$data_nasc}')";
+            $usuario = new Usuario();
 
-        $res = $conn->query($sql);
-        $conn -> commit();
+            $usuario->setNome($nome);
+            $usuario->setEmail($email);
+            $usuario->setSenha($senha);
+            $usuario->setDataNascimento($data_nasc);
 
-        if($res==true){
-            print "<script>alert('Cadastrado com sucesso');</script>";
-            print "<script>location.href='?page=listar';</script>";
-        }else{
-            print"<script>alert('Não foi possível cadastrar');</script>";
-            print "<script>location.href='?page=listar';</script>";
-        }
-        break;
+            try {
+                $entityManager->persist($usuario);
+                $entityManager->flush();
+
+                print "<script>alert('Cadastrado com sucesso');</script>";
+                print "<script>location.href='?page=listar';</script>";
+            }
+            
+            catch (Exception $e) {
+                print"<script>alert('Não foi possível cadastrar');</script>";
+                print "<script>location.href='?page=listar';</script>";
+            }
+            break;
+
         case 'editar':
+            $id = $_REQUEST["ID"];
             $nome = $_POST["nome"];
             $email = $_POST["email"];
             $senha = md5($_POST["senha"]);
+
             $data_nasc = $_POST["data_nasc"];
+            $data_nasc = DateTime::createFromFormat("Y-m-d", $data_nasc);
 
-            $sql = "UPDATE usuarios SET 
-                        nome='{$nome}', 
-                        email='{$email}', 
-                        senha='{$senha}', 
-                        data_nasc='{$data_nasc}'
-                    WHERE
-                        ID=".$_REQUEST["ID"];
+            $usuario = $entityManager->find('Usuario', (int)$id);
 
-        $res = $conn->query($sql);
-        $conn -> commit();
+            $usuario->setNome($nome);
+            $usuario->setEmail($email);
+            $usuario->setSenha($senha);
+            $usuario->setDataNascimento($data_nasc);
 
-        if($res==true){
-            print "<script>alert('Editado com sucesso');</script>";
-            print "<script>location.href='?page=listar';</script>";
-        }else{
-            print"<script>alert('Não foi possível editar');</script>";
-            print "<script>location.href='?page=listar';</script>";
-        }
-        break;
+            try {
+                $entityManager->flush();
+
+                print "<script>alert('Editado com sucesso');</script>";
+                print "<script>location.href='?page=listar';</script>";
+            }
+
+            catch (Exception $e) {
+                print"<script>alert('Não foi possível editar');</script>";
+                print "<script>location.href='?page=listar';</script>";
+            }
+            break;
 
         case 'excluir':
+            $id = $_REQUEST["ID"];
 
-            $sql = "DELETE FROM usuarios WHERE ID=".$_REQUEST["ID"];
+            try {
+                $usuario = $entityManager->find('Usuario', (int)$id);
 
-            $res = $conn->query($sql);
-        $conn -> commit();
+                $entityManager->remove($usuario);
+                $entityManager->flush();
 
-        if($res==true){
-            print "<script>alert('Excluido com sucesso');</script>";
-            print "<script>location.href='?page=listar';</script>";
-        }else{
-            print"<script>alert('Não foi possível excluir');</script>";
-            print "<script>location.href='?page=listar';</script>";
-        }
+                print "<script>alert('Excluido com sucesso');</script>";
+                print "<script>location.href='?page=listar';</script>";
+            }
+            
+            catch (Exception $e) {
+                print"<script>alert('Não foi possível excluir');</script>";
+                print "<script>location.href='?page=listar';</script>";
+            }
 
-        break;
+            break;
     }
 
 ?>
