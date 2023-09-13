@@ -1,5 +1,5 @@
 Instalação:
-    Para executar o Crud inicie um servidor apache2 e um servidor mySQL (no projeto foi utilizado XAMPP no Windows). Com os servidores iniciados utilize um navegador de internet e acesse http://localhost/projeto/index. 
+    Para executar o Crud inicie um servidor apache2 (no projeto foi utilizado XAMPP no Windows). Com o servidor iniciado utilize um navegador de internet e acesse http://localhost/projeto/index. 
 CRUD:
     Create: Na aba suspensa acesse "Novo Usuário" para cadastrar um novo usuário.
     Read: Utilize a aba "Listar Usuários" para visualizar usuários cadastros, editar ou excluir os mesmos.
