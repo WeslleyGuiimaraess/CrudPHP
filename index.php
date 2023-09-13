@@ -42,20 +42,43 @@
                     include("bootstrap.php");
                     include("src/Usuario.php");
 
+                    $loader = new \Twig\Loader\FilesystemLoader('templates');
+                    $twig = new \Twig\Environment($loader);
+
                     switch(@$_REQUEST["page"])
                     {
                         case "novo":
-                            include("novo-usuario.php");
-                        break;
+                            echo $twig->render('criar-editar-usuario.html.twig', [
+                                'usuario' => null,
+                                'edicao' => false,
+                            ]);
+                            break;
+
                         case "listar":
-                            include("listar-usuario.php");
-                        break;
+                            // include("listar-usuario.php");
+                            $usuarioRepository = $entityManager->getRepository('Usuario');
+                            $usuarios = $usuarioRepository->findAll();
+
+                            echo $twig->render('listar-usuario.html.twig', [
+                                'usuarios' => $usuarios,
+                            ]);
+                            break;
+
                         case "salvar":
                             include("salvar-usuario.php");
-                        break;
+                            break;
+
                         case "editar":
-                            include("editar-usuario.php");
-                        break;
+                            // include("editar-usuario.php");
+                            $id = $_REQUEST["ID"];
+                            $usuario = $entityManager->find('Usuario', (int)$id);
+
+                            echo $twig->render('criar-editar-usuario.html.twig', [
+                                'usuario' => $usuario,
+                                'edicao' => true,
+                            ]);
+                            break;
+
                         default:
                             print "Bem Vindo!";
                     }
