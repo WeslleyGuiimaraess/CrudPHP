@@ -1,0 +1,8 @@
+services:        
+  web:
+    build: .    
+    container_name : crud
+    ports:
+      - ${PORTA}:80
+    volumes:
+      - ./:/var/www/html/crud
